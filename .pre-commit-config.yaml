@@ -1,0 +1,29 @@
+# Hooks exécutés automatiquement par Git
+# Installation (une fois par poste) :
+#   pip install commitizen pre-commit
+#   pre-commit install --hook-type commit-msg --hook-type pre-commit --hook-type pre-push
+default_install_hook_types: [pre-commit, commit-msg, pre-push]
+
+repos:
+  # Vérifie que chaque message de commit respecte Conventional Commits
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.8.3
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+      # Empêche de pousser une branche contenant un commit non conforme
+      - id: commitizen-branch
+        stages: [pre-push]
+
+  # Hygiène de base des fichiers
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      # Interdit le commit direct sur les branches protégées (filet local, en plus de la protection serveur)
+      - id: no-commit-to-branch
+        args: [--branch, main, --branch, dev]
