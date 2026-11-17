@@ -40,13 +40,43 @@ git push -u origin feature/catalogue-articles
 # → ouvrir une PR feature/catalogue-articles → dev, assigner un relecteur
 ```
 
-### Release (responsable des releases)
-```bash
-git switch dev && git pull
-cz bump                          # calcule la version, met à jour CHANGELOG.md, crée le tag
-git push && git push --tags
-# → ouvrir une PR dev → main, fusionner après approbation
-```
+## Release
+
+1. Partir de `dev` à jour :
+   ```bash
+   git switch dev && git pull
+   git switch -c release/x.y.z
+   ```
+2. Calculer et appliquer la version :
+   ```bash
+   uv run cz bump --dry-run    # vérifier la version proposée
+   uv run cz bump              # version, CHANGELOG.md, commit et tag vX.Y.Z
+   git push -u origin release/x.y.z
+   ```
+3. PR `release/x.y.z → main`, mergée en **Create a merge commit** (pas de squash : le tag doit rester dans l'historique de `main`).
+4. Après le merge : `git push origin vX.Y.Z` → le workflow `release.yml` crée la release GitHub.
+5. PR `main → dev` (merge commit) pour que `dev` récupère la version et le changelog.
+
+## Hotfix
+
+Correction urgente d'un bug présent sur `main` :
+
+1. `git switch main && git pull`, puis `git switch -c hotfix/description`.
+2. Corriger avec un commit `fix: …`, puis `uv run cz bump` (version de correctif).
+3. PR `hotfix/… → main` (merge commit), puis `git push origin vX.Y.Z`.
+4. PR `main → dev` pour reporter la correction.
+
+## Definition of Done
+
+Une tâche est terminée quand :
+
+- [ ] le code respecte Ruff, Black et mypy (hooks pre-commit et CI verts) ;
+- [ ] les fonctions publiques ont une docstring ;
+- [ ] des tests couvrent le nouveau code (couverture ≥ 80 % dès qu'elle sera exigée) ;
+- [ ] les messages de commit et le titre de la PR respectent Conventional Commits ;
+- [ ] la PR est relue, approuvée et ses conversations sont résolues ;
+- [ ] la documentation (README, CONTRIBUTING) est à jour si besoin ;
+- [ ] l'issue liée est fermée (`Closes #N`).
 
 ## 3. Commits standardisés (Conventional Commits)
 
