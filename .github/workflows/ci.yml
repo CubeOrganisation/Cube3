@@ -21,6 +21,11 @@ jobs:
       - name: Installer les dépendances
         run: uv sync --locked
 
+      - name: Audit des dépendances (pip-audit)
+        run: |
+          uv export --format requirements-txt --no-emit-project -o requirements-audit.txt
+          uvx pip-audit -r requirements-audit.txt --disable-pip --no-deps
+
       - name: Lint (ruff)
         run: uv run ruff check .
 

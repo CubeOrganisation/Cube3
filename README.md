@@ -39,7 +39,9 @@ uv run cz commit         # assistant de message de commit
 | Style d'édition | EditorConfig | `.editorconfig` |
 | Fins de ligne (LF) | Git | `.gitattributes` |
 | Versions | SemVer, tags `vX.Y.Z` | `.cz.toml` |
-
+| Documentation du code | Ruff (règles `D`, style Google) | `pyproject.toml` |
+| Complexité maximale (10) | Ruff (règles `C90`) | `pyproject.toml` |
+| Failles des dépendances | pip-audit (CI) | `.github/workflows/ci.yml` |
 ## Branches
 
 - `main` : versions stables
