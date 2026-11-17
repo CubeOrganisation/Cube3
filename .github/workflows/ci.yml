@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [dev, main]
+  push:
+    branches: [dev, main]
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Installer les dépendances
+        run: uv sync --locked
+
+      - name: Lint (ruff)
+        run: uv run ruff check .
+
+      - name: Formatage (black)
+        run: uv run black --check .
+
+      - name: Messages de commit
+        if: github.event_name == 'pull_request'
+        run: uv run cz check --rev-range origin/${{ github.base_ref }}..HEAD
+
+      - name: Tests
+        run: uv run pytest
