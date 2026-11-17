@@ -50,7 +50,7 @@ git push -u origin feature/catalogue-articles
 2. Calculer et appliquer la version :
    ```bash
    uv run cz bump --dry-run    # vérifier la version proposée
-   uv run cz bump              # version, CHANGELOG.md, commit et tag vX.Y.Z
+   uv run cz bump              # version, CHANGELOG.md, commit et tag vX.Y.Z, en une commande
    git push -u origin release/x.y.z
    ```
 3. PR `release/x.y.z → main`, mergée en **Create a merge commit** (pas de squash : le tag doit rester dans l'historique de `main`).
