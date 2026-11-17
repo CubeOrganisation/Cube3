@@ -4,7 +4,13 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Paris"
     target-branch: "dev"
+    groups:
+      dependances-python:
+        patterns: ["*"]
     commit-message:
       prefix: "build"
       include: "scope"
@@ -13,7 +19,13 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "monday"
+      time: "08:00"
+      timezone: "Europe/Paris"
     target-branch: "dev"
+    groups:
+      actions-github:
+        patterns: ["*"]
     commit-message:
       prefix: "ci"
       include: "scope"
