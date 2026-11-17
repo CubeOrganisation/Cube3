@@ -1,13 +1,23 @@
 # Hooks exécutés automatiquement par Git
 # Installation (une fois par poste) :
 #   pip install commitizen pre-commit
-#   pre-commit install --hook-type commit-msg --hook-type pre-commit --hook-type pre-push
+#    install --hook-type commit-msg --hook-type pre-commit --hook-type pre-push
 default_install_hook_types: [pre-commit, commit-msg, pre-push]
 
 repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.5
+    hooks:
+      - id: ruff
+        args: [ --fix ]
+
+  - repo: https://github.com/psf/black-pre-commit-mirror
+    rev: 26.10.1
+    hooks:
+      - id: black
   # Vérifie que chaque message de commit respecte Conventional Commits
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v4.8.3
+    rev: v4.19.3
     hooks:
       - id: commitizen
         stages: [commit-msg]
@@ -17,7 +27,7 @@ repos:
 
   # Hygiène de base des fichiers
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
