@@ -11,7 +11,7 @@ for BRANCH in main dev; do
     -H "Accept: application/vnd.github+json" \
     --input - <<'JSON'
 {
-  "required_status_checks": null,
+    "required_status_checks": { "strict": true, "contexts": ["quality"] },
   "enforce_admins": true,
   "required_pull_request_reviews": {
     "required_approving_review_count": 1,
