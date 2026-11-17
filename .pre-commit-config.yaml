@@ -37,3 +37,7 @@ repos:
       # Interdit le commit direct sur les branches protégées (filet local, en plus de la protection serveur)
       - id: no-commit-to-branch
         args: [--branch, main, --branch, dev]
+      - id: mixed-line-ending
+        args: [ --fix=lf ]
+      - id: detect-private-key
+      - id: check-merge-conflict
